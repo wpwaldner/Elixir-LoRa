@@ -5,7 +5,7 @@ defmodule LoRa do
   Radios:
       Semtech SX1276/77/78/79 based boards.
   """
-  use Bitwise
+  #import Bitwise
   use GenServer
 
   alias ElixirALE.GPIO

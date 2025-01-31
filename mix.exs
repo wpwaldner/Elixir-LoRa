@@ -5,7 +5,7 @@ defmodule LoRa.MixProject do
     [
       app: :lora,
       version: "1.0.0",
-      elixir: "~> 1.6",
+      elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),

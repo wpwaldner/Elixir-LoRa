@@ -1,5 +1,5 @@
 defmodule LoRa.Modem do
-  use Bitwise
+  import Bitwise
   require Logger
 
   alias ElixirALE.GPIO
@@ -40,11 +40,15 @@ defmodule LoRa.Modem do
       Parameters.mode().long_range_mode ||| Parameters.mode().tx
     )
 
-    unless async? do
-      pid = spawn_link(__MODULE__, :verify_end_packet, [spi, from])
-      ref = Process.monitor(pid)
+    if !async? do
+      task = Task.start(fn ->
+        verify_end_packet(spi, from)
+      end)
 
-      Task.yield(%Task{pid: pid, ref: ref, owner: from}, 2000)
+      # pid = spawn_link(__MODULE__, :verify_end_packet, [spi, from])
+      # ref = Process.monitor(pid)
+
+      Task.yield(task, 2000)
     end
   end
 

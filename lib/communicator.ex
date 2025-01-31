@@ -1,5 +1,5 @@
 defmodule LoRa.Communicator do
-  use Bitwise
+  import Bitwise
 
   alias ElixirALE.SPI
 

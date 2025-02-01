@@ -1,7 +1,7 @@
 defmodule LoRa.Communicator do
   import Bitwise
 
-  alias ElixirALE.SPI
+  alias Circuits.SPI
 
   alias LoRa.Parameters
 

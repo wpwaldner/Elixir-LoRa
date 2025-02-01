@@ -2,7 +2,7 @@ defmodule LoRa.Modem do
   import Bitwise
   require Logger
 
-  alias ElixirALE.GPIO
+  alias Circuits.GPIO
 
   alias LoRa.Communicator
   alias LoRa.Parameters

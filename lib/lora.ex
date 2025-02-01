@@ -8,8 +8,8 @@ defmodule LoRa do
   #import Bitwise
   use GenServer
 
-  alias ElixirALE.GPIO
-  alias ElixirALE.SPI
+  alias Circuits.GPIO
+  alias Circuits.SPI
 
   alias LoRa.Modem
   alias LoRa.Communicator
@@ -97,7 +97,7 @@ defmodule LoRa do
     state = %{is_receiver?: true, owner: config[:owner], spi: nil, rst: nil, config: nil}
 
     Logger.info("LoRa: Start Device")
-    {:ok, rst} = GPIO.start_link(pin_reset, :output)
+    {:ok, rst} = GPIO.open("GPIO#{pin_reset}", :output)
     Modem.reset(rst)
 
     {:ok,
@@ -187,7 +187,7 @@ defmodule LoRa do
   def handle_cast(:sleep, state) do
     # Put in sleep mode
     Modem.sleep(state.spi)
-    SPI.release(state.spi.pid)
+    SPI.close(state.spi.pid)
     {:noreply, state}
   end
 
@@ -217,7 +217,7 @@ defmodule LoRa do
   end
 
   defp start_spi(device, speed_hz) do
-    {:ok, spi} = SPI.start_link(device, speed_hz: speed_hz, mode: 0)
+    {:ok, spi} = SPI.open(device, speed_hz: speed_hz, mode: 0)
     {:ok, spi}
   end
 end
